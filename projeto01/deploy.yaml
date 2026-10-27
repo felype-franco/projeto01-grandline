@@ -1,0 +1,38 @@
+name: "Deploy local"
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+
+      - name: Baixar código do repositório
+        uses: actions/checkout@v4
+
+      - name: Verificar e instalar docke
+        run: |
+          if ! command -v docker &> /dev/null; then
+            echo "Docker não foi encontrado. Iniciando a instalação..."
+            sudo apt-get update -y
+            sudo apt-get install -y docker.io
+            sudo systemctl start docker
+            sudo systemctl enable docker
+            sudo usermod -aG docker $USER
+            echo "Docker instalado com sucesso!"
+          else
+            echo "Docker já está instalado no sistema:"
+            docker --version
+          fi
+        
+      - name: Build imagem Docker
+        run: docker build -t app-web:v1 .
+      
+      - name: Atualizar container
+        run: |
+          docker stop servidor-web || true
+          docker rm servidor-web || true
+          docker run -d -p 8080:80 --name servidor-web app-web:v1
