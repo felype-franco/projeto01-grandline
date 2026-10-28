@@ -13,7 +13,7 @@ jobs:
       - name: Baixar código do repositório
         uses: actions/checkout@v4
 
-      - name: Verificar e instalar docke
+      - name: Verificar e instalar docker
         run: |
           if ! command -v docker &> /dev/null; then
             echo "Docker não foi encontrado. Iniciando a instalação..."
@@ -29,7 +29,7 @@ jobs:
           fi
         
       - name: Build imagem Docker
-        run: docker build -t app-web:v1 .
+        run: docker build -f ./projeto01/Dockerfile -t app-web:v1 .
       
       - name: Atualizar container
         run: |
