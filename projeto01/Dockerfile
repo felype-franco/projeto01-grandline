@@ -9,7 +9,7 @@ LABEL description = "Imagem web para o projeto DevOps"
 WORKDIR /usr/share/nginx/html
 
 #copia o arquivo da origem
-COPY /projeto01-grandline/projeto01/index.html .
+COPY index.html .
 
 #expoe a porta web
 EXPOSE 80

@@ -29,7 +29,7 @@ jobs:
           fi
         
       - name: Build imagem Docker
-        run: docker build -f ./projeto01/Dockerfile -t app-web:v1 .
+        run: docker build -f ./projeto01/Dockerfile -t app-web:v1 ./projeto01
       
       - name: Atualizar container
         run: |
